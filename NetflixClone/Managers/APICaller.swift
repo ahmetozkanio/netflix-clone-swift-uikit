@@ -13,12 +13,16 @@ extension APICaller{
         static let baseURL = "https://api.themoviedb.org"
     }
 }
+enum APIError: Error {
+    case failedToGetdata
+}
 
 final class APICaller {
     static let shared = APICaller()
     
+    let jsonDecoder = JSONDecoder()
     
-    func getTrendingMovies(completion: @escaping (String) -> () ) {
+    func getTrendingMovies(completion: @escaping (Result<[Movie], Error>) -> Void ) {
         
         guard let url = URL(string: "\(Constants.baseURL)/3/trending/all/day?api_key=\(Constants.API_KEY)") else { return }
         
@@ -32,8 +36,10 @@ final class APICaller {
             }
             
             do {
-                let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+                let result = try self.jsonDecoder.decode(TrendingMoviesResponse.self, from: data)
+                completion(.success(result.results))
             } catch {
+                completion(.failure(error))
                 print(error.localizedDescription)
             }
         }
