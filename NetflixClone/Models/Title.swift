@@ -1,17 +1,17 @@
 //
-//  Tv.swift
+//  Title.swift
 //  NetflixClone
 //
-//  Created by Ahmet Özkan on 14.08.2023.
+//  Created by Ahmet Özkan on 10.08.2023.
 //
 
 import Foundation
 
-struct TrendingTvResponse: Codable {
-    let results: [Tv]
+struct TrendingTitleResponse: Codable {
+    let results: [Title]
 }
 
-struct Tv: Codable {
+struct Title: Codable {
     let id: Int?
     let mediaType: String?
     let originalName: String?

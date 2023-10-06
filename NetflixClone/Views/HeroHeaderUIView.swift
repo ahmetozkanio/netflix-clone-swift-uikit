@@ -12,8 +12,9 @@ class HeroHeaderUIView: UIView {
     private let downloadButton: UIButton = {
         let button = UIButton()
         button.setTitle("Download", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.red.cgColor
+        button.backgroundColor = .black
+        button.layer.borderWidth = 2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
         return button
@@ -22,8 +23,10 @@ class HeroHeaderUIView: UIView {
     private let playButton: UIButton = {
         let button = UIButton()
         button.setTitle("Play", for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.borderWidth = 1
+        button.setTitleColor(.red, for: .normal)
+        button.backgroundColor = .black
+        button.layer.borderColor = UIColor.red.cgColor
+        button.layer.borderWidth = 2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 5
         return button
@@ -33,7 +36,7 @@ class HeroHeaderUIView: UIView {
        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "heroImage")
+        imageView.image = UIImage(named: "HeroImage")
         return imageView
     }()
     
@@ -50,12 +53,14 @@ class HeroHeaderUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(heroImageView)
-        addGradiend()
-        addSubview(playButton)
-        addSubview(downloadButton)
-        applyConstraints()
+//        addGradiend()
+//        addSubview(playButton)
+//        addSubview(downloadButton)
+//        applyConstraints()
     }
     private func applyConstraints() {
+        
+        
         let playButtonConstraints = [
             playButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
             playButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -50),
