@@ -29,6 +29,8 @@
 		487494182AD0806100886F3D /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487494172AD0806100886F3D /* TitleTableViewCell.swift */; };
 		4874941A2AD0829B00886F3D /* TitleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487494192AD0829B00886F3D /* TitleViewModel.swift */; };
 		4874941C2AD08C4B00886F3D /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4874941B2AD08C4B00886F3D /* SearchResultsViewController.swift */; };
+		48EE82382AD18D8D00D14B68 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 48EE82372AD18D8D00D14B68 /* Lottie */; };
+		48EE823A2AD1EDC100D14B68 /* YoutubeSearchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EE82392AD1EDC100D14B68 /* YoutubeSearchResults.swift */; };
 		48F76E532A7FB84F00BF33DB /* HeroHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F76E522A7FB84F00BF33DB /* HeroHeaderUIView.swift */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +76,7 @@
 		487494172AD0806100886F3D /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		487494192AD0829B00886F3D /* TitleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleViewModel.swift; sourceTree = "<group>"; };
 		4874941B2AD08C4B00886F3D /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
+		48EE82392AD1EDC100D14B68 /* YoutubeSearchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeSearchResults.swift; sourceTree = "<group>"; };
 		48F76E522A7FB84F00BF33DB /* HeroHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderUIView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,6 +87,7 @@
 			files = (
 				487494162AD066DE00886F3D /* SDWebImageMapKit in Frameworks */,
 				487494142AD066DE00886F3D /* SDWebImage in Frameworks */,
+				48EE82382AD18D8D00D14B68 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				4814E8A62A84A7910050D704 /* Title.swift */,
+				48EE82392AD1EDC100D14B68 /* YoutubeSearchResults.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -250,6 +255,7 @@
 			packageProductDependencies = (
 				487494132AD066DE00886F3D /* SDWebImage */,
 				487494152AD066DE00886F3D /* SDWebImageMapKit */,
+				48EE82372AD18D8D00D14B68 /* Lottie */,
 			);
 			productName = NetflixClone;
 			productReference = 481327892A7EC26100C3C80B /* NetflixClone.app */;
@@ -325,6 +331,7 @@
 			mainGroup = 481327802A7EC26100C3C80B;
 			packageReferences = (
 				487494122AD066DE00886F3D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				48EE82362AD18D8D00D14B68 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 4813278A2A7EC26100C3C80B /* Products */;
 			projectDirPath = "";
@@ -377,6 +384,7 @@
 				4814E8A52A84A54A0050D704 /* APICaller.swift in Sources */,
 				48F76E532A7FB84F00BF33DB /* HeroHeaderUIView.swift in Sources */,
 				481327C62A7EC5D000C3C80B /* DownloadsViewController.swift in Sources */,
+				48EE823A2AD1EDC100D14B68 /* YoutubeSearchResults.swift in Sources */,
 				4874941C2AD08C4B00886F3D /* SearchResultsViewController.swift in Sources */,
 				4814E8A92A84AB960050D704 /* Extensions.swift in Sources */,
 				4813278D2A7EC26100C3C80B /* AppDelegate.swift in Sources */,
@@ -721,6 +729,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		48EE82362AD18D8D00D14B68 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -733,6 +749,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 487494122AD066DE00886F3D /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		48EE82372AD18D8D00D14B68 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48EE82362AD18D8D00D14B68 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -11,6 +11,8 @@ extension APICaller{
     struct Constants {
         static let API_KEY = "2faa2bdda699f241a1e3e8d7c9effaa1"
         static let baseURL = "https://api.themoviedb.org"
+        static let YouTubeAPI_KEY = "AIzaSyAV3vGGogmsOHK_sR9S6y9Xh_ZBAwgxK2w"
+        static let YoutubeBaseURL = "https://youtube.googleapis.com/youtube/v3/search"
     }
 }
 enum APIError: Error {
@@ -166,7 +168,7 @@ final class APICaller {
         
     }
     
-    func searhc(with query: String, completion: @escaping (Result<[Title], Error>) -> Void )  {
+    func search(with query: String, completion: @escaping (Result<[Title], Error>) -> Void )  {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
         
         guard let url = URL(string: "\(Constants.baseURL)/3/search/movie?api_key=\(Constants.API_KEY)&query=\(query))") else { return }
@@ -192,4 +194,31 @@ final class APICaller {
         
     }
     
+    func getMovie(with query: String, completion: @escaping (Result<VideoElement, Error>) -> Void )  {
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
+        
+        guard let url = URL(string: "\(Constants.YoutubeBaseURL)?key=\(Constants.YouTubeAPI_KEY)&q=\(query))") else { return }
+
+
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _, error in
+            
+            guard
+                let data = data,
+                error == nil
+            else {
+                return
+            }
+            
+            do {
+                let result = try self.jsonDecoder.decode(YoutubeSearchResults.self, from: data)
+                completion(.success((result.items?[0])!))
+                
+            } catch {
+                completion(.failure(error))
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
+        
+    }
 }

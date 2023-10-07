@@ -103,7 +103,7 @@ extension SearchViewController: UISearchResultsUpdating {
             return
         }
         
-        APICaller.shared.searhc(with: query) { result in
+        APICaller.shared.search(with: query) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let titles):
