@@ -211,11 +211,11 @@ final class APICaller {
             
             do {
                 let result = try self.jsonDecoder.decode(YoutubeSearchResults.self, from: data)
-                guard let result = result.items[0] else {
+                guard let item = result.items?[0] else {
                     completion(.failure(APIError.failedToGetdata))
                     return
                 }
-                completion(.success((result.items?[0]!)))
+                completion(.success(item))
 
                 
             } catch {
