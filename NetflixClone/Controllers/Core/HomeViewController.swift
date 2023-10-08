@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
         configureNavbar()
        
         
-        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
         homeFeedTable.tableHeaderView = headerView
         configureHeroHeaderView()
     }
@@ -181,10 +181,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let defaultOffSet = view.safeAreaInsets.top
-        let offSet = scrollView.contentOffset.y + defaultOffSet
-        
-        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offSet))
+//        let defaultOffSet = view.safeAreaInsets.top
+//        let offSet = scrollView.contentOffset.y + defaultOffSet
+//
+//        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offSet))
     }
     
 

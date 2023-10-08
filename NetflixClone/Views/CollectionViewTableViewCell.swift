@@ -53,7 +53,14 @@ class CollectionViewTableViewCell: UITableViewCell {
     }
     
     private func downloadTitleAt(indexPath: IndexPath) {
-        
+        DataPersistenceManager.shared.downloadTitleWith(model: titles[indexPath.row]) { result in
+            switch result {
+            case .success():
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -76,7 +83,7 @@ extension CollectionViewTableViewCell: UICollectionViewDataSource, UICollectionV
             switch result {
             case .success(let videoElement):
                 
-                let viewModel = TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? "")
+                let viewModel = TitlePreviewViewModel(item: title, youtubeView: videoElement)
                 self.delegate?.collectionViewTableViewCellDidTapCell(self , viewModel: viewModel)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -103,14 +110,14 @@ extension CollectionViewTableViewCell: UICollectionViewDataSource, UICollectionV
         
         let config = UIContextMenuConfiguration(
             identifier: nil,
-            previewProvider: nil) { [weak self]_ in
+            previewProvider: nil) { [weak self] _ in
                 let downloadAction = UIAction(title: "Download",state: .off) { _ in
                     self?.downloadTitleAt(indexPath: indexPath)
                 }
                 return UIMenu(title: "", options: .displayInline, children: [downloadAction])
             }
         return config
+        
     }
-    
-    
+
 }

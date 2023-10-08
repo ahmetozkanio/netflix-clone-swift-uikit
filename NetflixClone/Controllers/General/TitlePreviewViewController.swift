@@ -22,16 +22,18 @@ final class TitlePreviewViewController: UIViewController {
     private let overviewLabel: UILabel = {
         
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = .systemFont(ofSize: 12, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 20
         label.text = "This is the best movie!"
+        
         return label
     }()
     
     private let downloadButton: UIButton = {
        
         let button = UIButton()
+
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .red
         button.setTitle("Download", for: .normal)
@@ -48,6 +50,9 @@ final class TitlePreviewViewController: UIViewController {
         return webView
     }()
     
+    
+    private var titleItem: Title?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,6 +64,8 @@ final class TitlePreviewViewController: UIViewController {
         view.addSubview(downloadButton)
         
         configureConstraints()
+
+        downloadButton.addTarget(self, action: #selector(downloadButtonTapped), for: .touchUpInside)
     }
     
     private func configureConstraints() {
@@ -95,13 +102,36 @@ final class TitlePreviewViewController: UIViewController {
     }
     
     func configure(with model: TitlePreviewViewModel) {
-        titleLabel.text = model.title
-        overviewLabel.text = model.titleOverview
+        self.titleItem = model.item
+        titleLabel.text = model.item.originalTitle ?? ""
+        overviewLabel.text =  model.item.overview ?? ""
         
-        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeView.id?.videoId ?? "")") else {
+        guard let url = URL(string: "https://www.youtube.com/embed/\( model.youtubeView.id?.videoId ?? "")") else {
             return
         }
         
         webView.load(URLRequest(url: url))
+        
+        DataPersistenceManager.shared.downloadedBeforeCheckingDatabase(model: model.item) { [weak self] result in
+            switch result {
+            case .success(let value):
+                self?.downloadButton.isHidden = value
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    @objc func downloadButtonTapped() {
+        guard let titleItem = self.titleItem else { return }
+        DataPersistenceManager.shared.downloadTitleWith(model: titleItem) { result in
+            switch result {
+            case .success():
+                NotificationCenter.default.post(name: NSNotification.Name("downloaded"), object: nil)
+                self.downloadButton.isHidden = true
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

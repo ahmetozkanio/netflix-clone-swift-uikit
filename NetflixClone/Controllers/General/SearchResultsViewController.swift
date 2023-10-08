@@ -75,7 +75,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         APICaller.shared.getMovie(with: title.originalTitle ?? "") { [weak self] result in
             switch result {
             case .success(let videoElement):
-                self?.delegate?.searchResultsViewControllerDidTapItem(TitlePreviewViewModel(title: title.originalTitle ?? "", youtubeView: videoElement, titleOverview: title.overview ?? ""))
+                self?.delegate?.searchResultsViewControllerDidTapItem(TitlePreviewViewModel(item: title, youtubeView: videoElement))
              
             case .failure(let error):
                 print(error.localizedDescription)
