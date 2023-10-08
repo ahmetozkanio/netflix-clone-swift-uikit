@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchViewController: UIViewController {
-
+    
     private var titles: [Title] = [Title]()
     
     private let discoverTable: UITableView = {
@@ -28,7 +28,7 @@ class SearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .systemBackground
         title = "Search"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -51,7 +51,7 @@ class SearchViewController: UIViewController {
         
         discoverTable.frame = view.bounds
     }
-
+    
     
     private func fetchDiscoverMovies() {
         APICaller.shared.getDiscoverMovies { [weak self] result in
@@ -67,7 +67,7 @@ class SearchViewController: UIViewController {
             
         }
     }
-
+    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -88,9 +88,34 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         152
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let title = titles[indexPath.row]
+        
+        guard let titleName = title.originalTitle ?? title.originalName else {
+            return
+        }
+        
+        APICaller.shared.getMovie(with: titleName) { [weak self] result in
+            switch result {
+            case .success(let videoElement):
+                DispatchQueue.main.async {
+                    let vc = TitlePreviewViewController()
+                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeView: videoElement, titleOverview: title.overview ?? ""))
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
-extension SearchViewController: UISearchResultsUpdating {
+extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelegate {
+    
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
         
@@ -102,6 +127,8 @@ extension SearchViewController: UISearchResultsUpdating {
         else {
             return
         }
+        
+        resultsController.delegate = self
         
         APICaller.shared.search(with: query) { result in
             DispatchQueue.main.async {
@@ -115,5 +142,13 @@ extension SearchViewController: UISearchResultsUpdating {
         }
     }
     
-    
+    func searchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            
+            let vc = TitlePreviewViewController()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+ 
+    }
 }
